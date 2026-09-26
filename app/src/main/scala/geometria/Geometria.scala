@@ -22,7 +22,7 @@ class Geometria {
    * distancia(1, 1, 1, 1) == 0.0
    */
   def distancia(x1: Double, y1: Double, x2: Double, y2: Double): Double = {
-    ???
+    math.sqrt(math.pow(x2-x1,2)+math.pow(y2-y1,2))
   }
 
   /**
@@ -36,7 +36,7 @@ class Geometria {
   def perimetro(ax: Double, ay: Double,
                 bx: Double, by: Double,
                 cx: Double, cy: Double): Double = {
-    ???
+    distancia(ax,ay,bx,by) + distancia(bx,by,cx,cy) + distancia(cx,cy,ax,ay)
   }
 
   /**
@@ -57,7 +57,10 @@ class Geometria {
   def area(ax: Double, ay: Double,
            bx: Double, by: Double,
            cx: Double, cy: Double): Double = {
-    ???
+    val s = (perimetro(ax,ay,bx,by,cx,cy)/2)
+    val res = s*(s- distancia(ax,ay,bx,by))*(s- distancia(bx,by,cx,cy))*(s- distancia(cx,cy,ax,ay))
+    require(res != 0)
+    math.sqrt(res)
   }
 
   /**
@@ -77,6 +80,12 @@ class Geometria {
   def clasificar(ax: Double, ay: Double,
                  bx: Double, by: Double,
                  cx: Double, cy: Double): String = {
-    ???
+    val epsilon: Double = 1e-6
+    val l1 = distancia(ax,ay,bx,by)
+    val l2 = distancia(bx,by,cx,cy)
+    val l3 = distancia(cx,cy,ax,ay)
+    if (math.abs(l1-l2) < epsilon && math.abs(l2-l3) < epsilon) "equilatero"
+    else if (math.abs(l1-l2) < epsilon || math.abs(l2-l3) < epsilon || math.abs(l3-l1) < epsilon) "isosceles"
+    else "escaleno" 
   }
 }
